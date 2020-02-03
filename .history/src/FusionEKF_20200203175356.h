@@ -32,7 +32,7 @@ class FusionEKF {
   KalmanFilter ekf_;
 
   /**
-   * State vector getter
+   * State vector getter 
    */
   Eigen::VectorXd get_x();
 

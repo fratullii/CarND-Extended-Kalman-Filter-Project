@@ -39,9 +39,9 @@ class Tools {
   void CalculateJacobian(Eigen::MatrixXd &Hj, const Eigen::VectorXd &x_state);
 
   /**
-   * A helper method to pass from polar to cartesian coordinates.
+   * A helper method to pass from cartesian to polar coordinates.
    */
-  void FromPolar2Cartesian(Eigen::VectorXd &x, const Eigen::VectorXd &raw_measurements);
+  void FromCartesian2Polar(Eigen::VectorXd &x, const Eigen::VectorXd &raw_measurements);
 
 };
 

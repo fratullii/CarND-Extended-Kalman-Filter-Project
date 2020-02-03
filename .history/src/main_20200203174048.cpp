@@ -102,7 +102,7 @@ int main() {
 
           VectorXd gt_values(4);
           gt_values(0) = x_gt;
-          gt_values(1) = y_gt;
+          gt_values(1) = y_gt; 
           gt_values(2) = vx_gt;
           gt_values(3) = vy_gt;
           ground_truth.push_back(gt_values);
@@ -114,18 +114,17 @@ int main() {
           //   state vector
 
           VectorXd estimate(4);
-          VectorXd current_state = fusionEKF.get_x();
 
-          double p_x = current_state(0);
-          double p_y = current_state(1);
-          double v1  = current_state(2);
-          double v2 = current_state(3);
+          double p_x = fusionEKF.ekf_.x_(0);
+          double p_y = fusionEKF.ekf_.x_(1);
+          double v1  = fusionEKF.ekf_.x_(2);
+          double v2 = fusionEKF.ekf_.x_(3);
 
           estimate(0) = p_x;
           estimate(1) = p_y;
           estimate(2) = v1;
           estimate(3) = v2;
-
+        
           estimations.push_back(estimate);
 
           VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
@@ -168,6 +167,6 @@ int main() {
     std::cerr << "Failed to listen to port" << std::endl;
     return -1;
   }
-
+  
   h.run();
 }

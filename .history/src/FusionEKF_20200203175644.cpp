@@ -150,6 +150,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   cout << "P_ = " << P_ << endl;
 }
 
-VectorXd FusionEKF::get_x(){
+VectorXd get_x(){
   return x_;
 }

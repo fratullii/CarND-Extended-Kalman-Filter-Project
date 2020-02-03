@@ -68,8 +68,5 @@ MatrixXd KalmanFilter::get_Q(){
 VectorXd KalmanFilter::get_x(){
   return x_;
 }
-MatrixXd KalmanFilter::get_P(){
-  return P_;
-}
 
 

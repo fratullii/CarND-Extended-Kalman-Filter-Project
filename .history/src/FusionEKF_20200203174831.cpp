@@ -139,7 +139,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       ekf_.set_H(H_laser_);
     }
     ekf_.Update(measurement_pack.raw_measurements_);
-
   }
 
   // Update last_sensor value
@@ -148,8 +147,4 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   // print the output
   cout << "x_ = " << x_ << endl;
   cout << "P_ = " << P_ << endl;
-}
-
-VectorXd FusionEKF::get_x(){
-  return x_;
 }

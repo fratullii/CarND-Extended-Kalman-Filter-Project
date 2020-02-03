@@ -56,12 +56,12 @@ FusionEKF::FusionEKF() {
   Q_ = MatrixXd::Zero(4,4);
 
   // State vector x
-  x_ = VectorXd(4);
-  x_ << 1,1,1,1;
+  x_in_ = VectorXd(4);
+  x_in_ << 1,1,1,1;
 
   // State covariance matrix P
-  P_ = MatrixXd(4,4);
-  P_ << 1, 0, 0, 0,
+  P_in_ = MatrixXd(4,4);
+  P_in_ << 1, 0, 0, 0,
           0, 1, 0, 0,
           0, 0, 1000, 0,
           0, 0, 0, 1000;
@@ -75,81 +75,72 @@ FusionEKF::~FusionEKF() {}
 
 void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
-  // Update time-related variables
+  // Time stamp filter
   time_step_ = measurement_pack.timestamp_ - previous_timestamp_;
-  previous_timestamp_ = measurement_pack.timestamp_;
 
   /**
-   * INITIALIZATION
-   * Initialize the code with the first measurement
+   * Initialization
    */
   if (!is_initialized_) {
 
-    cout << "EKF: " << endl;
+    if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
 
-    if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR){
+      tools.FromCartesian2Polar(x_in_, measurement_pack.raw_measurements_);
+      ekf_.Init(x_in_, P_in_);
 
-      tools.FromPolar2Cartesian(x_, measurement_pack.raw_measurements_);
+    } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
 
-    } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER){
-
-      x_ << measurement_pack.raw_measurements_[0],
-            measurement_pack.raw_measurements_[1],
-            0,
-            0;
+      x_in_ << measurement_pack.raw_measurements_[0],
+              measurement_pack.raw_measurements_[1],
+              0,
+              0;
 
     }
 
-    ekf_.Init(x_, P_, F_, Q_);
     last_sensor_ = MeasurementPackage::NOSENSOR;
     is_initialized_ = true;
     return;
   }
 
   /**
-   * PREDICTION
+   * Prediction
    */
+
   tools.CalculateStateTrans(F_, time_step_);
   tools.CalculateProcNoiseCov(Q_, time_step_, noise_ax_,  noise_ay_);
-  // Actually, just setting the refernce with init should be enough to change the value
-  // in the ekf_ object as well.
-  // ekf_.set_F(F_);
-  // ekf_.set_Q(Q_);
+  ekf_.set_F(F_);
+  ekf_.set_Q(Q_);
   ekf_.Predict();
 
   /**
-   * UPDATE
+   * Update
    */
+
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
     // Radar updates
 
-    if (last_sensor_ != MeasurementPackage::RADAR){
+    if (last_sensor_ == MeasurementPackage::LASER){
       ekf_.set_R(R_radar_);
-      ekf_.set_H(Hj_);
     }
-    tools.CalculateJacobian(Hj_, x_);
-    // ekf_.set_H(Hj_); same reason as above: moved in the if statement, previous reference should be enough
+    tools.CalculateJacobian(Hj_, ekf_.get_x());
+    ekf_.set_H(Hj_);
     ekf_.UpdateEKF(measurement_pack.raw_measurements_);
 
   } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER){
     // Laser updates
 
-    if(last_sensor_ != MeasurementPackage::LASER){
+    if(last_sensor_ == MeasurementPackage::RADAR){
       ekf_.set_R(R_laser_);
       ekf_.set_H(H_laser_);
     }
     ekf_.Update(measurement_pack.raw_measurements_);
-
   }
 
   // Update last_sensor value
   last_sensor_ = measurement_pack.sensor_type_;
 
   // print the output
-  cout << "x_ = " << x_ << endl;
-  cout << "P_ = " << P_ << endl;
-}
-
-VectorXd FusionEKF::get_x(){
-  return x_;
+  cout << "EKF: " << endl;
+  cout << "x_ = " << ekf_.x_ << endl;
+  cout << "P_ = " << ekf_.P_ << endl;
 }

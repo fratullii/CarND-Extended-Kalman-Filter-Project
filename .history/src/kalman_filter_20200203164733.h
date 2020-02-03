@@ -20,8 +20,7 @@ class KalmanFilter {
    * @param x_in Initial state
    * @param P_in Initial state covariance
    */
-  void Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in,
-            Eigen::MatrixXd &F_in, Eigen::MatrixXd &Q_in);
+  void Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in);
 
   /**
    * Prediction Predicts the state and the state covariance
@@ -46,20 +45,21 @@ class KalmanFilter {
    * Setters
    */
 
-  void set_R(const Eigen::MatrixXd &R);
-  void set_H(const Eigen::MatrixXd &H);
   void set_F(const Eigen::MatrixXd &F);
+  void set_H(const Eigen::MatrixXd &H);
   void set_Q(const Eigen::MatrixXd &Q);
+  void set_R(const Eigen::MatrixXd &R);
 
   /**
    * Getters
    */
-  Eigen::MatrixXd get_R();
-  Eigen::MatrixXd get_H();
+
   Eigen::MatrixXd get_F();
+  Eigen::MatrixXd get_H();
   Eigen::MatrixXd get_Q();
+  Eigen::MatrixXd get_R();
   Eigen::VectorXd get_x();
-  Eigen::MatrixXd get_P();
+  Eigen::VectorXD get_P();
 
   private:
 

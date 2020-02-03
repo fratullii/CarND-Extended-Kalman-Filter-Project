@@ -31,11 +31,6 @@ class FusionEKF {
    */
   KalmanFilter ekf_;
 
-  /**
-   * State vector getter
-   */
-  Eigen::VectorXd get_x();
-
  private:
   // check whether the tracking toolbox was initialized or not (first measurement)
   bool is_initialized_;

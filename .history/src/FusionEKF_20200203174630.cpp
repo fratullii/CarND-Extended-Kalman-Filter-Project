@@ -77,7 +77,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   // Update time-related variables
   time_step_ = measurement_pack.timestamp_ - previous_timestamp_;
-  previous_timestamp_ = measurement_pack.timestamp_;
+  previous_timestamp_ = measurement_pack.timestamp_
 
   /**
    * INITIALIZATION
@@ -125,10 +125,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     if (last_sensor_ != MeasurementPackage::RADAR){
       ekf_.set_R(R_radar_);
-      ekf_.set_H(Hj_);
     }
     tools.CalculateJacobian(Hj_, x_);
-    // ekf_.set_H(Hj_); same reason as above: moved in the if statement, previous reference should be enough
+    ekf_.set_H(Hj_);
     ekf_.UpdateEKF(measurement_pack.raw_measurements_);
 
   } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER){
@@ -139,7 +138,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       ekf_.set_H(H_laser_);
     }
     ekf_.Update(measurement_pack.raw_measurements_);
-
   }
 
   // Update last_sensor value
@@ -148,8 +146,4 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   // print the output
   cout << "x_ = " << x_ << endl;
   cout << "P_ = " << P_ << endl;
-}
-
-VectorXd FusionEKF::get_x(){
-  return x_;
 }

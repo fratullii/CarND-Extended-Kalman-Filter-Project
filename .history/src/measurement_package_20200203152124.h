@@ -8,7 +8,7 @@ class MeasurementPackage {
   enum SensorType{
     LASER,
     RADAR,
-    NOSENSOR
+    NOSENS
   } sensor_type_;
 
   long long timestamp_;
