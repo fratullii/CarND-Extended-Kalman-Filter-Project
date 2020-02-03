@@ -23,19 +23,13 @@ void CalculateProcNoiseCov(MatrixXd &Q, const long long &dt,
     */
 }
 
-void CalculateStateTrans(Eigen::MatrixXd &F, const long long &dt){
-   // Calculate F
-}
+voide 
 
  void Tools::CalculateJacobian(MatrixXd &Hj, const VectorXd &x_state) {
   /**
    * TODO:
    * Calculate a Jacobian here.
    */
-}
-
-void FromPolar2Cartesian(Eigen::VectorXd &x, const Eigen::VectorXd &raw_measurements){
-   // calculate state x (only px and py) from rho and theta
 }
 
 
