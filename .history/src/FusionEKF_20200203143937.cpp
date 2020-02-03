@@ -89,7 +89,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       x_in_ = tools.FromCartesian2Polar(measurement_pack.raw_measurements_);
       ekf_.Init(x_in_, P_in_);
 
-    } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
+    }
+    else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
 
       x_in_ = VectorXd(4);
       x_in_ << measurement_pack.raw_measurements_[0],
@@ -106,6 +107,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   /**
    * Prediction
    */
+
   tools.CalculateStateTrans(F_, time_step_);
   tools.CalculateProcNoiseCov(Q_, time_step_, noise_ax_,  noise_ay_);
   ekf_.set_F(F_);
@@ -113,10 +115,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   ekf_.Predict();
 
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
-    // Radar updates
+    // TODO: Radar updates
 
-  } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER & ){
-    // Laser updates
+  } else {
+    // TODO: Laser updates
 
   }
 

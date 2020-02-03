@@ -67,11 +67,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   if (!is_initialized_) {
 
     // State transition matrix F
-    F_ = MatrixXd(4,4);
-    F_ << 1, 0, 0, 0,
-          0, 1, 0, 0,
-          0, 0, 1, 0,
-          0, 0, 0, 1;
+    F_in_ = tools.CalculateStateTrans(time_step_);
 
     // state covariance matrix P
     P_in_ = MatrixXd(4,4);
@@ -81,15 +77,16 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
             0, 0, 0, 1000;
 
     // Process noise covariance matrix Q
-    Q_ = MatrixXd(4,4);
-    tools.CalculateProcNoiseCov(Q_, time_step_, noise_ax_, noise_ay_);
+
+    Q_in_ = tools.CalculateProcNoiseCov(time_step_, noise_ax_, noise_ay_);
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
 
       x_in_ = tools.FromCartesian2Polar(measurement_pack.raw_measurements_);
-      ekf_.Init(x_in_, P_in_);
+      ekf_.Init()
 
-    } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
+    }
+    else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
 
       x_in_ = VectorXd(4);
       x_in_ << measurement_pack.raw_measurements_[0],
@@ -106,17 +103,32 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   /**
    * Prediction
    */
-  tools.CalculateStateTrans(F_, time_step_);
-  tools.CalculateProcNoiseCov(Q_, time_step_, noise_ax_,  noise_ay_);
-  ekf_.set_F(F_);
-  ekf_.set_Q(Q_);
+
+  /**
+   * TODO: Update the state transition matrix F according to the new elapsed time.
+   * Time is measured in seconds.
+   * TODO: Update the process noise covariance matrix.
+   * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
+   */
+  
+  tools.CalculateStateTrans()
   ekf_.Predict();
 
-  if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
-    // Radar updates
+  /**
+   * Update
+   */
 
-  } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER & ){
-    // Laser updates
+  /**
+   * TODO:
+   * - Use the sensor type to perform the update step.
+   * - Update the state and covariance matrices.
+   */
+
+  if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
+    // TODO: Radar updates
+
+  } else {
+    // TODO: Laser updates
 
   }
 

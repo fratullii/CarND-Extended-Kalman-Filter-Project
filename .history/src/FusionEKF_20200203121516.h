@@ -49,12 +49,12 @@ class FusionEKF {
   Eigen::MatrixXd R_radar_;
   Eigen::MatrixXd H_laser_;
   Eigen::MatrixXd Hj_;
-  Eigen::MatrixXd F_;
-  Eigen::MatrixXd Q_;
+  Eigen::MatrixXd F_in_;
+  Eigen::MatrixXd P_in_;
+  Eigen::MatrixXd Q_in_;
 
   // For initialization
   Eigen::VectorXd x_in_;
-  Eigen::MatrixXd P_in_;
 
   // Process noise variances
   long long noise_ax_;

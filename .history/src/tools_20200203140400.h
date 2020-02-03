@@ -25,25 +25,24 @@ class Tools {
   /**
    * A helper to calculate the process noise covariance matrix Q
    */
-  void CalculateProcNoiseCov(Eigen::MatrixXd &Q,
-                             const long long &dt,
-                             const long long &sigma_ax,
-                             const long long &sigma_ay);
+  Eigen::MatrixXd CalculateProcNoiseCov(const long long &dt,
+                                        const long long &sigma_ax,
+                                        const long long &sigma_ay);
 
   /**
    * A helper method to computer the state transition matrix
    */
-  void CalculateStateTrans(Eigen::MatrixXd &F, const long long &dt);
+  Eigen::MatrixXd CalculateStateTrans(const long long &dt);
 
   /**
    * A helper method to calculate Jacobians.
    */
-  Eigen::MatrixXd CalculateJacobian(const Eigen::VectorXd &x_state);
+  Eigen::MatrixXd CalculateJacobian(const Eigen::VectorXd& x_state);
 
   /**
    * A helper method to pass from cartesian to polar coordinates
    */
-  Eigen::MatrixXd FromCartesian2Polar(Eigen::VectorXd raw_measurements);
+  Eigen::MatrixXd FromCartesian2Polar(Eigen::VectorXd &raw_measurements);
 
 };
 

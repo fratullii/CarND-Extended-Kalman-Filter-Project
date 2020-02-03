@@ -89,7 +89,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       x_in_ = tools.FromCartesian2Polar(measurement_pack.raw_measurements_);
       ekf_.Init(x_in_, P_in_);
 
-    } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
+    }
+    else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
 
       x_in_ = VectorXd(4);
       x_in_ << measurement_pack.raw_measurements_[0],
@@ -106,17 +107,33 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   /**
    * Prediction
    */
+
+  /**
+   * TODO: Update the state transition matrix F according to the new elapsed time.
+   * Time is measured in seconds.
+   * TODO: Update the process noise covariance matrix.
+   * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
+   */
+
   tools.CalculateStateTrans(F_, time_step_);
-  tools.CalculateProcNoiseCov(Q_, time_step_, noise_ax_,  noise_ay_);
-  ekf_.set_F(F_);
-  ekf_.set_Q(Q_);
+  tools.CalculateProcNoiseCov(Q_, time_step_, noise_ax, )
   ekf_.Predict();
 
-  if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
-    // Radar updates
+  /**
+   * Update
+   */
 
-  } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER & ){
-    // Laser updates
+  /**
+   * TODO:
+   * - Use the sensor type to perform the update step.
+   * - Update the state and covariance matrices.
+   */
+
+  if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
+    // TODO: Radar updates
+
+  } else {
+    // TODO: Laser updates
 
   }
 

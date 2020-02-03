@@ -115,7 +115,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
     // Radar updates
 
-  } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER & ){
+  } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER){
     // Laser updates
 
   }
