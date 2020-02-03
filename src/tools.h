@@ -25,7 +25,7 @@ class Tools {
   /**
    * A helpter to calculate the process noise covariance matrix Q
    */
-  MatrixXd Tools::CalculateProcNoiseCov(const long long &dt,
+  Eigen::MatrixXd CalculateProcNoiseCov(const long long &dt,
                                         const long long &sigma_ax,
                                         const long long &sigma_ay);
 
