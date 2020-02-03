@@ -16,14 +16,6 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
    */
 }
 
-MatrixXd Tools::CalculateProcNoiseCov(const long long &dt,
-                                        const long long &sigma_ax,
-                                        const long long &sigma_ay){
-   /**
-    * TODO: Calculate Q here
-    */
-}
-
 MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   /**
    * TODO:

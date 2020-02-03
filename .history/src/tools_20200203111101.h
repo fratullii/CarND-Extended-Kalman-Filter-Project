@@ -27,7 +27,7 @@ class Tools {
    */
   MatrixXd Tools::CalculateProcNoiseCov(const long long &dt,
                                         const long long &sigma_ax,
-                                        const long long &sigma_ay);
+                                        consg long long &sigma_ay);
 
   /**
    * A helper method to calculate Jacobians.

@@ -23,13 +23,6 @@ class Tools {
                                 const std::vector<Eigen::VectorXd> &ground_truth);
 
   /**
-   * A helpter to calculate the process noise covariance matrix Q
-   */
-  MatrixXd Tools::CalculateProcNoiseCov(const long long &dt,
-                                        const long long &sigma_ax,
-                                        const long long &sigma_ay);
-
-  /**
    * A helper method to calculate Jacobians.
    */
   Eigen::MatrixXd CalculateJacobian(const Eigen::VectorXd& x_state);
