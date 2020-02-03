@@ -41,34 +41,20 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 }
 
 /**
-  * Setters
-**/
+   * Setters
+   */
+  void set_F(const Eigen::MatrixXd &F){
+    F_ = F;
+  }
+  
+  void set_H(const Eigen::MatrixXd &H);
+  void set_Q(const Eigen::MatrixXd &Q);
+  void set_R(const Eigen::MatrixXd &R);
 
-void KalmanFilter::set_F(const Eigen::MatrixXd &F){
-  F_ = F;
-}
-void KalmanFilter::set_H(const Eigen::MatrixXd &H){
-  H_ = H;
-}
-void KalmanFilter::set_Q(const Eigen::MatrixXd &Q){
-  Q_ = Q;
-}
-void KalmanFilter::set_R(const Eigen::MatrixXd &R){
-  R_ = R;
-}
-
-/**
- * Getters
- */
-Eigen::MatrixXd KalmanFilter::get_F(){
-  return F_;
-}
-Eigen::MatrixXd KalmanFilter::get_H(){
-  return H_;
-}
-Eigen::MatrixXd KalmanFilter::get_Q(){
-  return Q_;
-}
-Eigen::MatrixXd KalmanFilter::get_R(){
-  return R_;
-}
+  /**
+   * Getters
+   */
+  void get_F(const Eigen::MatrixXd &F);
+  void get_H(const Eigen::MatrixXd &H);
+  void get_Q(const Eigen::MatrixXd &Q);
+  void get_R(const Eigen::MatrixXd &R);

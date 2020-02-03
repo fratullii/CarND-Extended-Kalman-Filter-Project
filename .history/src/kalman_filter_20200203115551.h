@@ -59,10 +59,10 @@ class KalmanFilter {
    * Getters
    */
 
-  Eigen::MatrixXd get_F();
-  Eigen::MatrixXd get_H();
-  Eigen::MatrixXd get_Q();
-  Eigen::MatrixXd get_R();
+  void get_F(const Eigen::MatrixXd &F);
+  void get_H(const Eigen::MatrixXd &H);
+  void get_Q(const Eigen::MatrixXd &Q);
+  void get_R(const Eigen::MatrixXd &R);
 
   private:
 

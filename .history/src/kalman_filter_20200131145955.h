@@ -46,26 +46,6 @@ class KalmanFilter {
    */
   void UpdateEKF(const Eigen::VectorXd &z);
 
-  /**
-   * Setters
-   */
-
-  void set_F(const Eigen::MatrixXd &F);
-  void set_H(const Eigen::MatrixXd &H);
-  void set_Q(const Eigen::MatrixXd &Q);
-  void set_R(const Eigen::MatrixXd &R);
-
-  /**
-   * Getters
-   */
-
-  Eigen::MatrixXd get_F();
-  Eigen::MatrixXd get_H();
-  Eigen::MatrixXd get_Q();
-  Eigen::MatrixXd get_R();
-
-  private:
-
   // state vector
   Eigen::VectorXd x_;
 
