@@ -19,7 +19,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
    */
 }
 
-void Tools::CalculateProcNoiseCov(MatrixXd &Q, const long long &dt,
+void CalculateProcNoiseCov(MatrixXd &Q, const long long &dt,
                            const long long &sigma_ax, const long long &sigma_ay){
 
    long long dt2 = dt * dt;
@@ -39,7 +39,7 @@ void Tools::CalculateProcNoiseCov(MatrixXd &Q, const long long &dt,
    return;
 }
 
-void Tools::CalculateStateTrans(MatrixXd &F, const long long &dt){
+void CalculateStateTrans(MatrixXd &F, const long long &dt){
 
    F(0,2) = dt;
    F(1,3) = dt;
@@ -47,7 +47,7 @@ void Tools::CalculateStateTrans(MatrixXd &F, const long long &dt){
    return;
 }
 
-VectorXd Tools::NonLinearH(const VectorXd &x_state){
+VectorXd NonLinearH(const VectorXd &x_state){
 
    // recover state parameters
    float px = x_state(0);
@@ -95,7 +95,7 @@ VectorXd Tools::NonLinearH(const VectorXd &x_state){
    return;
 }
 
-void Tools::FromPolar2Cartesian(VectorXd &x, const VectorXd &raw_meas){
+void FromPolar2Cartesian(VectorXd &x, const VectorXd &raw_meas){
 
    x << raw_meas[0] * cos(raw_meas[1]),
         raw_meas[0] * sin(raw_meas[1]),

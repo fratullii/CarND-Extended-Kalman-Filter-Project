@@ -24,8 +24,8 @@ void KalmanFilter::Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in,
 
   // Initialize private hidden variables
   y_ = VectorXd(4);
-  S_ = MatrixXd(4,4);
-  K_ = MatrixXd(4,4);
+  S_ = MatrixXd(4);
+  K_ = MatrixXd(4);
 }
 
 void KalmanFilter::Predict() {
@@ -60,7 +60,7 @@ void KalmanFilter::Update(const VectorXd &z) {
 }
 
 void KalmanFilter::UpdateEKF(const VectorXd &z,
-                             VectorXd (*nonlinH)(const VectorXd&)){
+                             VectorXd (*nonlinH)(const int)){
 
   // compute residual with non linear function
   y_ = z - nonlinH(x_);
