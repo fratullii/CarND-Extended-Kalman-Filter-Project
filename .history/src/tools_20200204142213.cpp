@@ -14,53 +14,31 @@ Tools::~Tools() {}
 
 VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
                               const vector<VectorXd> &ground_truth) {
+                                 VectorXd rmse(4);
+  VectorXd rmse(4);
+  rmse << 0,0,0,0;
 
-   VectorXd rmse(4);
-   rmse << 0,0,0,0;
-
-   // check the validity of the following inputs:
-   //  * the estimation vector size should not be zero
-   //  * the estimation vector size should equal ground truth vector size
-   if (estimations.size() != ground_truth.size() || estimations.size() == 0) {
-      std::cout << "Invalid estimation or ground_truth data" << std::endl;
-      return rmse;
-   }
-
-   // accumulate squared residuals
-   for (unsigned int i=0; i < estimations.size(); ++i) {
-
-      VectorXd residual = estimations[i] - ground_truth[i];
-
-      // coefficient-wise multiplication
-      residual = residual.array()*residual.array();
-      rmse += residual;
-   }
-
-   // calculate the mean
-   rmse = rmse/estimations.size();
-
-   // calculate the squared root
-   rmse = rmse.array().sqrt();
-
-   // return the result
-   return rmse;
+  // check the validity of the following inputs:
+  //  * the estimation vector size should not be zero
+  //  * the estimation vector size should equal ground truth vector size
+  if (estimations.size() != ground_truth.size() || estimations.size() == 0) {
+     std::cout << "Invalid estimation or ground_truth data" << std::endl;
+     return rmse;
+  }
 }
 
 void Tools::CalculateProcNoiseCov(MatrixXd &Q, const long long &dt,
                            const long long &sigma_ax, const long long &sigma_ay){
 
-   // dt terms
    long long dt2 = dt * dt;
    long long dt3 = dt * dt2;
    long long dt4 = dt * dt3;
 
-   // elements on the diagonal
    Q(0,0) = dt4 / 4 * sigma_ax;
    Q(1,1) = dt4 / 4 * sigma_ay;
    Q(2,2) = dt2 * sigma_ax;
    Q(3,3) = dt2 * sigma_ay;
 
-   // elements off the diagonal
    Q(0,2) = dt3 / 3 * sigma_ax;
    Q(1,3) = dt3 / 3 * sigma_ax;
    Q(2,0) = Q(0,2);
@@ -119,8 +97,8 @@ VectorXd Tools::NonLinearH(const VectorXd &x_state){
 
   // compute the Jacobian matrix
   Hj << (px/c2), (py/c2), 0, 0,
-         -(py/c1), (px/c1), 0, 0,
-         py*(vx*py - vy*px)/c3, px*(px*vy - py*vx)/c3, px/c2, py/c2;
+      -(py/c1), (px/c1), 0, 0,
+      py*(vx*py - vy*px)/c3, px*(px*vy - py*vx)/c3, px/c2, py/c2;
 
    return;
 }
