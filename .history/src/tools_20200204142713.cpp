@@ -61,8 +61,8 @@ void Tools::CalculateProcNoiseCov(MatrixXd &Q, const long long &dt,
    Q(3,3) = dt2 * sigma_ay;
 
    // elements off the diagonal
-   Q(0,2) = dt3 / 2 * sigma_ax;
-   Q(1,3) = dt3 / 2 * sigma_ax;
+   Q(0,2) = dt3 / 3 * sigma_ax;
+   Q(1,3) = dt3 / 3 * sigma_ax;
    Q(2,0) = Q(0,2);
    Q(3,1) = Q(1,3);
 
