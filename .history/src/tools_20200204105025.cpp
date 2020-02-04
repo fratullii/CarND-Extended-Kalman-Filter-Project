@@ -45,7 +45,7 @@ void CalculateStateTrans(MatrixXd &F, const long long &dt){
    return;
 }
 
-VectorXd NonLinearH(const VectorXd &x_state){
+Eigen::VectorXd NonLinearH(const Eigen::VectorXd &x_state){
 
    // recover state parameters
    float px = x_state(0);
@@ -58,12 +58,10 @@ VectorXd NonLinearH(const VectorXd &x_state){
    float c2 = sqrt(c1);
 
    // initialize vector in measurement space
-   VectorXd hx = VectorXd(4);
+   Eigen::MatrixXd hx = MatrixXd(4);
    hx(0) = c2;
    hx(1) = atan2(py, px);
    hx(2) = (px*vy + py*vx) / c2;
-
-   return hx;
 }
 
  void Tools::CalculateJacobian(MatrixXd &Hj, const VectorXd &x_state) {

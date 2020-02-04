@@ -1,5 +1,4 @@
 #include "kalman_filter.h"
-#include "tools.h"
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -15,17 +14,10 @@ KalmanFilter::~KalmanFilter() {}
 
 void KalmanFilter::Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in,
                         Eigen::MatrixXd &F_in, Eigen::MatrixXd &Q_in){
-
-  // Initialize by reference
   x_ = x_in;
   P_ = P_in;
   F_ = F_in;
   Q_ = Q_in;
-
-  // Initialize private hidden variables
-  y_ = VectorXd(4);
-  S_ = MatrixXd(4);
-  K_ = MatrixXd(4);
 }
 
 void KalmanFilter::Predict() {
@@ -59,24 +51,10 @@ void KalmanFilter::Update(const VectorXd &z) {
   return;
 }
 
-void KalmanFilter::UpdateEKF(const VectorXd &z, Eigen::VectorXd (*nonlinH)(Eigen::VectorXd)) {
-
-  // compute residual with non linear function
-  y_ = z - nonlinH(x_);
-
-  // compute residual covariance
-  S_ = H_ * P_ * H_.transpose() + R_;
-
-  // compute gain
-  K_ = P_ * H_.transpose() * S_.inverse();
-
-  // update state
-  x_ = x_ + K_ * y_;
-
-  // update covariance
-  P_ = (MatrixXd::Identity(4,4) - K_ * H_) * P_;
-
-  return;
+void KalmanFilter::UpdateEKF(const VectorXd &z) {
+  /**
+   * TODO: update the state by using Extended Kalman Filter equations
+   */
 }
 
 

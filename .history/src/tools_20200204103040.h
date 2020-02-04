@@ -36,7 +36,7 @@ class Tools {
   /**
    * A helper method to compute the non-linear transfer function state-measurement space
    */
-  Eigen::VectorXd NonLinearH(const Eigen::VectorXd &x_state);
+  Eigen::VectorXd NonLinearH(const Eigen::VectorXd &x_);
 
   /**
    * A helper method to calculate Jacobians.

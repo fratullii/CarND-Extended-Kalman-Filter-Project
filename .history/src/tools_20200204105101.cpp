@@ -45,7 +45,7 @@ void CalculateStateTrans(MatrixXd &F, const long long &dt){
    return;
 }
 
-VectorXd NonLinearH(const VectorXd &x_state){
+Eigen::VectorXd NonLinearH(const Eigen::VectorXd &x_state){
 
    // recover state parameters
    float px = x_state(0);

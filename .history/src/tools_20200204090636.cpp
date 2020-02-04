@@ -1,6 +1,5 @@
 #include "tools.h"
 #include <iostream>
-#include <math.h>
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
@@ -19,7 +18,6 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 
 void CalculateProcNoiseCov(MatrixXd &Q, const long long &dt,
                            const long long &sigma_ax, const long long &sigma_ay){
-
    long long dt2 = dt * dt;
    long long dt3 = dt * dt2;
    long long dt4 = dt * dt3;
@@ -45,52 +43,11 @@ void CalculateStateTrans(MatrixXd &F, const long long &dt){
    return;
 }
 
-VectorXd NonLinearH(const VectorXd &x_state){
-
-   // recover state parameters
-   float px = x_state(0);
-   float py = x_state(1);
-   float vx = x_state(2);
-   float vy = x_state(3);
-
-   // pre-compute a set of terms to avoid repeated calculation
-   float c1 = px*px+py*py;
-   float c2 = sqrt(c1);
-
-   // initialize vector in measurement space
-   VectorXd hx = VectorXd(4);
-   hx(0) = c2;
-   hx(1) = atan2(py, px);
-   hx(2) = (px*vy + py*vx) / c2;
-
-   return hx;
-}
-
  void Tools::CalculateJacobian(MatrixXd &Hj, const VectorXd &x_state) {
-
-  // recover state parameters
-  float px = x_state(0);
-  float py = x_state(1);
-  float vx = x_state(2);
-  float vy = x_state(3);
-
-  // pre-compute a set of terms to avoid repeated calculation
-  float c1 = px*px+py*py;
-  float c2 = sqrt(c1);
-  float c3 = (c1*c2);
-
-  // check division by zero
-  if (fabs(c1) < 0.0001) {
-     std::cout << "CalculateJacobian () - Error - Division by Zero" << std::endl;
-    return;
-  }
-
-  // compute the Jacobian matrix
-  Hj << (px/c2), (py/c2), 0, 0,
-      -(py/c1), (px/c1), 0, 0,
-      py*(vx*py - vy*px)/c3, px*(px*vy - py*vx)/c3, px/c2, py/c2;
-
-   return;
+  /**
+   * TODO:
+   * Calculate a Jacobian here.
+   */
 }
 
 void FromPolar2Cartesian(VectorXd &x, const VectorXd &raw_meas){

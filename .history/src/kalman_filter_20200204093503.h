@@ -40,7 +40,7 @@ class KalmanFilter {
    * Updates the state by using Extended Kalman Filter equations
    * @param z The measurement at k+1
    */
-  void UpdateEKF(const Eigen::VectorXd &z, Eigen::VectorXd (*nonlinH)(Eigen::VectorXd));
+  void UpdateEKF(const Eigen::VectorXd &z);
 
   /**
    * Setters

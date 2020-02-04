@@ -36,8 +36,8 @@ class Tools {
   /**
    * A helper method to compute the non-linear transfer function state-measurement space
    */
-  Eigen::VectorXd NonLinearH(const Eigen::VectorXd &x_state);
-
+  Eigen::VectorXd NonLinearH(Eigen::VectorXd &x_);
+  
   /**
    * A helper method to calculate Jacobians.
    */
@@ -46,7 +46,7 @@ class Tools {
   /**
    * A helper method to pass from polar to cartesian coordinates.
    */
-  void FromPolar2Cartesian(Eigen::VectorXd &x, const Eigen::VectorXd &raw_meas);
+  void FromPolar2Cartesian(Eigen::VectorXd &x, const Eigen::VectorXd &raw_meas);111
 
 };
 

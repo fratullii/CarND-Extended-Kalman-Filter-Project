@@ -3,6 +3,7 @@
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
+using Tools::NonLinearH;
 
 /*
  * Please note that the Eigen library does not initialize
@@ -42,7 +43,7 @@ void KalmanFilter::Predict() {
 void KalmanFilter::Update(const VectorXd &z) {
 
   // compute residual
-  y_ = z - H_ * x_;
+  y_ = z - 
 
   // compute residual covariance
   S_ = H_ * P_ * H_.transpose() + R_;
@@ -59,10 +60,10 @@ void KalmanFilter::Update(const VectorXd &z) {
   return;
 }
 
-void KalmanFilter::UpdateEKF(const VectorXd &z, Eigen::VectorXd (*nonlinH)(Eigen::VectorXd)) {
+void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   // compute residual with non linear function
-  y_ = z - nonlinH(x_);
+  y_ = z - tools::h_nonlinear;
 
   // compute residual covariance
   S_ = H_ * P_ * H_.transpose() + R_;

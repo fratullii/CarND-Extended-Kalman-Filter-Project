@@ -1,5 +1,4 @@
 #include "kalman_filter.h"
-#include "tools.h"
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -59,10 +58,10 @@ void KalmanFilter::Update(const VectorXd &z) {
   return;
 }
 
-void KalmanFilter::UpdateEKF(const VectorXd &z, Eigen::VectorXd (*nonlinH)(Eigen::VectorXd)) {
+void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
-  // compute residual with non linear function
-  y_ = z - nonlinH(x_);
+  // compute residual
+  y_ = z - H_ * x_;
 
   // compute residual covariance
   S_ = H_ * P_ * H_.transpose() + R_;

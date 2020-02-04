@@ -34,11 +34,6 @@ class Tools {
   void CalculateStateTrans(Eigen::MatrixXd &F, const long long &dt);
 
   /**
-   * A helper method to compute the non-linear transfer function state-measurement space
-   */
-  Eigen::VectorXd NonLinearH(const Eigen::VectorXd &x_state);
-
-  /**
    * A helper method to calculate Jacobians.
    */
   void CalculateJacobian(Eigen::MatrixXd &Hj, const Eigen::VectorXd &x_state);
