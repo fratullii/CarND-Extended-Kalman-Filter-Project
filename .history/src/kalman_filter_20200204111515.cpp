@@ -59,8 +59,7 @@ void KalmanFilter::Update(const VectorXd &z) {
   return;
 }
 
-void KalmanFilter::UpdateEKF(const VectorXd &z,
-                             VectorXd (*nonlinH)(const VectorXd)){
+void KalmanFilter::UpdateEKF(const VectorXd &z, VectorXd (*nonlinH)(const VectorXd)) {
 
   // compute residual with non linear function
   y_ = z - nonlinH(x_);
