@@ -24,6 +24,7 @@ void KalmanFilter::Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in,
 
   // Initialize private hidden variables
   y_ = VectorXd(3);
+  S_;
   K_ = MatrixXd(4,3);
 }
 
@@ -65,7 +66,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z,
   y_ = z - nonlinH(x_);
 
   // compute residual covariance
-  S_ = H_ * P_ * H_.transpose() + R_;
+  Sj_ = H_ * P_ * H_.transpose() + R_;
 
   // compute gain
   K_ = P_ * H_.transpose() * S_.inverse();

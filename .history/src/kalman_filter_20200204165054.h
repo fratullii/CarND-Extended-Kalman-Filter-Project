@@ -79,13 +79,19 @@ class KalmanFilter {
   // measurement matrix for KF
   Eigen::MatrixXd H_;
 
+  // measurement jacobian matrix for EKF
+  Eigen::MatrixXd Hj_;
+
   // measurement covariance matrix for KF
   Eigen::MatrixXd R_;
+
+  // // measurement covariance matrix for EKF
+  Eigen::MatrixXd Rj_;
 
   // residual vector
   Eigen::VectorXd y_;
 
-  // residual covariance matrix for KF
+  // residual covariance matrix
   Eigen::MatrixXd S_;
 
   // gain matrix

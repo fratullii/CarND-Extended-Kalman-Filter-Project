@@ -24,6 +24,7 @@ void KalmanFilter::Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in,
 
   // Initialize private hidden variables
   y_ = VectorXd(3);
+  S_ = MatrixXd(3,3);
   K_ = MatrixXd(4,3);
 }
 

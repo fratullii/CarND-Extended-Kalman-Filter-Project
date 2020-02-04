@@ -65,7 +65,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z,
   y_ = z - nonlinH(x_);
 
   // compute residual covariance
-  S_ = H_ * P_ * H_.transpose() + R_;
+  Sj_ = H_ * P_ * H_.transpose() + R_;
 
   // compute gain
   K_ = P_ * H_.transpose() * S_.inverse();

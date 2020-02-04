@@ -76,16 +76,16 @@ class KalmanFilter {
   // process covariance matrix
   Eigen::MatrixXd Q_;
 
-  // measurement matrix for KF
+  // measurement matrix
   Eigen::MatrixXd H_;
 
-  // measurement covariance matrix for KF
+  // measurement covariance matrix
   Eigen::MatrixXd R_;
 
   // residual vector
   Eigen::VectorXd y_;
 
-  // residual covariance matrix for KF
+  // residual covariance matrix
   Eigen::MatrixXd S_;
 
   // gain matrix
