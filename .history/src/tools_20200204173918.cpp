@@ -90,7 +90,7 @@ VectorXd Tools::NonLinearH(const VectorXd &x_state){
    float c2 = sqrt(c1);
 
    // initialize vector in measurement space
-   VectorXd hx(3);
+   VectorXd hx = VectorXd(3);
    hx(0) = c2;
    hx(1) = atan2(py, px);
    hx(2) = (px*vy + py*vx) / c2;
