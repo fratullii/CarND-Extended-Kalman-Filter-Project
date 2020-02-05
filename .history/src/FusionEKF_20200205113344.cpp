@@ -77,7 +77,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   // Update time-related variables
   time_step_ = measurement_pack.timestamp_ - previous_timestamp_;
-  time_step_ /= 1000000.0; // convert micros to s
   previous_timestamp_ = measurement_pack.timestamp_;
 
   /**

@@ -51,7 +51,7 @@ void KalmanFilter::Update(const VectorXd &z) {
   x_ = x_ + K_ * y_;
 
   // update covariance
-  P_ = (MatrixXd::Identity(state_size_,state_size_) - K_ * H_) * P_;
+  P_ = (MatrixXd::Identity(4,4) - K_ * H_) * P_;
 
   return;
 }

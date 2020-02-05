@@ -21,7 +21,7 @@ void KalmanFilter::Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in,
   P_ = P_in;
   F_ = F_in;
   Q_ = Q_in;
-  state_size_ = (unsigned int) x_.size();
+  state_size_ = x_.size();
 
 }
 
@@ -42,16 +42,16 @@ void KalmanFilter::Update(const VectorXd &z) {
   y_ = z - H_ * x_;
 
   // compute residual covariance
-  S_ = H_ * P_ * Ht_ + R_;
+  S_ = H_ * P_ * H_.transpose() + R_;
 
   // compute gain
-  K_ = P_ * Ht_ * S_.inverse();
+  K_ = P_ * H_.transpose() * S_.inverse();
 
   // update state
   x_ = x_ + K_ * y_;
 
   // update covariance
-  P_ = (MatrixXd::Identity(state_size_,state_size_) - K_ * H_) * P_;
+  P_ = (MatrixXd::Identity(4,4) - K_ * H_) * P_;
 
   return;
 }

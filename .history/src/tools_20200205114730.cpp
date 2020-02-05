@@ -1,5 +1,6 @@
 #include "tools.h"
 #include <iostream>
+#include <math.h>
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
@@ -78,11 +79,21 @@ void Tools::CalculateStateTrans(MatrixXd &F, const long long &dt){
 
 VectorXd Tools::NonLinearH(const VectorXd &x_state){
 
+   // recover state parameters
+   float px = x_state(0);
+   float py = x_state(1);
+   float vx = x_state(2);
+   float vy = x_state(3);
+
+   // pre-compute a set of terms to avoid repeated calculation
+   float c1 = px*px+py*py;
+   float c2 = sqrt(c1);
+
    // initialize vector in measurement space
    VectorXd hx(3);
-   hx(0) = sqrt(x_state(0)*x_state(0) + x_state(1)*x_state(1));
-   hx(1) = atan(x_state(1) / x_state(0));
-   hx(2) = (x_state(0)*x_state(2) + x_state(1)*x_state(3)) / hx(0);
+   hx(0) = c2;
+   hx(1) = atan(py / px);
+   hx(2) = (px*vx + py*vy) / c2;
 
    return hx;
 }

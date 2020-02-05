@@ -97,9 +97,6 @@ class KalmanFilter {
 
   // gain matrix
   Eigen::MatrixXd K_;
-
-  // state size
-  unsigned int state_size_;
 };
 
 #endif // KALMAN_FILTER_H_

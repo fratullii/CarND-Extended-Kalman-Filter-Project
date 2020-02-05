@@ -83,7 +83,7 @@ class KalmanFilter {
   // measurement matrix for KF
   Eigen::MatrixXd H_;
 
-  // transposed measurement matrix
+  // Transposed matrix
   Eigen::MatrixXd Ht_;
 
   // measurement covariance matrix for KF
@@ -97,9 +97,6 @@ class KalmanFilter {
 
   // gain matrix
   Eigen::MatrixXd K_;
-
-  // state size
-  unsigned int state_size_;
 };
 
 #endif // KALMAN_FILTER_H_

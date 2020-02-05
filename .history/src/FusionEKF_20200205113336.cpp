@@ -77,7 +77,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   // Update time-related variables
   time_step_ = measurement_pack.timestamp_ - previous_timestamp_;
-  time_step_ /= 1000000.0; // convert micros to s
   previous_timestamp_ = measurement_pack.timestamp_;
 
   /**
@@ -132,7 +131,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.set_H(Hj_);
 
     ekf_.UpdateEKF(measurement_pack.raw_measurements_, tools.NonLinearH);
-    cout << "RADAR" << endl;
+    cout << "LASER" << endl;
 
   } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER){
     // Laser update
