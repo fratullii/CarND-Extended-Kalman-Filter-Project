@@ -81,7 +81,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   /**
    * INITIALIZATION
-   * Initialize the kf with the first measurement
+   * Initialize the code with the first measurement
    */
   if (!is_initialized_) {
 
@@ -111,35 +111,33 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    */
   tools.CalculateStateTrans(F_, time_step_);
   tools.CalculateProcNoiseCov(Q_, time_step_, noise_ax_,  noise_ay_);
-
-  ekf_.set_F(F_);
-  ekf_.set_Q(Q_);
-
+  // Actually, just setting the refernce with init should be enough to change the value
+  // in the ekf_ object as well.
+  // ekf_.set_F(F_);
+  // ekf_.set_Q(Q_);
   ekf_.Predict();
 
   /**
    * UPDATE
    */
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
-    // Radar update
+    // Radar updates
 
     if (last_sensor_ != MeasurementPackage::RADAR){
       ekf_.set_R(R_radar_);
+      ekf_.set_H(Hj_);
     }
     tools.CalculateJacobian(Hj_, ekf_.x_state());
-
-    ekf_.set_H(Hj_);
-
+    // ekf_.set_H(Hj_); same reason as above: moved in the if statement, previous reference should be enough
     ekf_.UpdateEKF(measurement_pack.raw_measurements_, tools.NonLinearH);
 
   } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER){
-    // Laser update
+    // Laser updates
 
     if(last_sensor_ != MeasurementPackage::LASER){
       ekf_.set_R(R_laser_);
       ekf_.set_H(H_laser_);
     }
-
     ekf_.Update(measurement_pack.raw_measurements_);
 
   }

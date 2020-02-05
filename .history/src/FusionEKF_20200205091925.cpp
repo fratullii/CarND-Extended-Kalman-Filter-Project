@@ -81,7 +81,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   /**
    * INITIALIZATION
-   * Initialize the kf with the first measurement
+   * Initialize the code with the first measurement
    */
   if (!is_initialized_) {
 
@@ -121,7 +121,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    * UPDATE
    */
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
-    // Radar update
+    // Radar updates
 
     if (last_sensor_ != MeasurementPackage::RADAR){
       ekf_.set_R(R_radar_);
@@ -133,13 +133,12 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.UpdateEKF(measurement_pack.raw_measurements_, tools.NonLinearH);
 
   } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER){
-    // Laser update
+    // Laser updates
 
     if(last_sensor_ != MeasurementPackage::LASER){
       ekf_.set_R(R_laser_);
       ekf_.set_H(H_laser_);
     }
-
     ekf_.Update(measurement_pack.raw_measurements_);
 
   }

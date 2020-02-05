@@ -139,7 +139,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       ekf_.set_R(R_laser_);
       ekf_.set_H(H_laser_);
     }
-
     ekf_.Update(measurement_pack.raw_measurements_);
 
   }

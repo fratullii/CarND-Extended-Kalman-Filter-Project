@@ -55,14 +55,14 @@ void Tools::CalculateProcNoiseCov(MatrixXd &Q, const long long &dt,
    long long dt4 = dt * dt3;
 
    // elements on the diagonal
-   Q(0,0) = dt4 / 4 * sigma_ax * sigma_ax;
-   Q(1,1) = dt4 / 4 * sigma_ay * sigma_ay;
-   Q(2,2) = dt2 * sigma_ax * sigma_ax;
-   Q(3,3) = dt2 * sigma_ay * sigma_ay;
+   Q(0,0) = dt4 / 4 * sigma_ax;
+   Q(1,1) = dt4 / 4 * sigma_ay;
+   Q(2,2) = dt2 * sigma_ax;
+   Q(3,3) = dt2 * sigma_ay;
 
    // elements off the diagonal
-   Q(0,2) = dt3 / 2 * sigma_ax * sigma_ax;
-   Q(1,3) = dt3 / 2 * sigma_ay * sigma_ay;
+   Q(0,2) = dt3 / 2 * sigma_ax;
+   Q(1,3) = dt3 / 2 * sigma_ay;
    Q(2,0) = Q(0,2);
    Q(3,1) = Q(1,3);
 
@@ -93,7 +93,7 @@ VectorXd Tools::NonLinearH(const VectorXd &x_state){
    VectorXd hx(3);
    hx(0) = c2;
    hx(1) = atan2(py, px);
-   hx(2) = (px*vx + py*vy) / c2;
+   hx(2) = (px*vy + py*vx) / c2;
 
    return hx;
 }
