@@ -134,7 +134,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.UpdateEKF(measurement_pack.raw_measurements_, tools.NonLinearH);
     cout << "RADAR" << endl;
 
-  } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER){
+  } else if (false){
     // Laser update
 
     if(last_sensor_ != MeasurementPackage::LASER){

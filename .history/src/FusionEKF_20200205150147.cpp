@@ -151,7 +151,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   last_sensor_ = measurement_pack.sensor_type_;
 
   // print the output
-  // cout << "x_ = " << ekf_.x_state() << endl;
+  cout << "x_ = " << ekf_.x_state() << endl;
   // cout << "P_ = " << ekf_.P_covariance() << endl;
 }
 

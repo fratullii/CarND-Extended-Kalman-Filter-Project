@@ -118,8 +118,8 @@ void Tools::FromPolar2Cartesian(VectorXd &x, const VectorXd &raw_meas){
 
    x << raw_meas[0] * cos(raw_meas[1]),
         raw_meas[0] * sin(raw_meas[1]),
-        0,
-        0;
+        raw_meas[2] * cos(raw_meas[1]),
+        raw_meas[2] * sin(raw_meas[1]);
 
    return;
 }
