@@ -84,6 +84,7 @@ VectorXd Tools::NonLinearH(const VectorXd &x_state){
    hx(1) = atan2(x_state(1) , x_state(0));
    hx(2) = (x_state(0)*x_state(2) + x_state(1)*x_state(3)) / hx(0);
 
+   std::cout << hx(1) << std::endl;
    return hx;
 }
 

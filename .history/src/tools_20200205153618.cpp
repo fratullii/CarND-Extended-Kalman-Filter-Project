@@ -90,15 +90,15 @@ VectorXd Tools::NonLinearH(const VectorXd &x_state){
  void Tools::CalculateJacobian(MatrixXd &Hj, const VectorXd &x_state) {
 
   // recover state parameters
-  long long px = x_state(0);
-  long long py = x_state(1);
-  long long vx = x_state(2);
-  long long vy = x_state(3);
+  float px = x_state(0);
+  float py = x_state(1);
+  float vx = x_state(2);
+  float vy = x_state(3);
 
   // pre-compute a set of terms to avoid repeated calculation
-  long long c1 = px*px+py*py;
-  long long c2 = sqrt(c1);
-  long long c3 = (c1*c2);
+  float c1 = px*px+py*py;
+  float c2 = sqrt(c1);
+  float c3 = (c1*c2);
 
   // check division by zero
   if (fabs(c1) < 0.0001) {
