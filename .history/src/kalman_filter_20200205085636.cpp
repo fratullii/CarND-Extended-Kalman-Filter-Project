@@ -104,9 +104,11 @@ MatrixXd KalmanFilter::get_Q(){
   return Q_;
 }
 
-VectorXd KalmanFilter::x_state(){
+VectorXd KalmanFilter::get_x(){
   return x_;
 }
-MatrixXd KalmanFilter::P_covariance(){
+MatrixXd KalmanFilter::get_P(){
   return P_;
 }
+
+

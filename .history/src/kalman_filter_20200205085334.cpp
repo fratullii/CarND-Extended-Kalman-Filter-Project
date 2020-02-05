@@ -24,6 +24,17 @@ void KalmanFilter::Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in,
 
 }
 
+void KalmanFilter::InitReference(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in,
+                                 Eigen::MatrixXd &F_in, Eigen::MatrixXd &Q_in){
+
+  // Initialize by reference
+  x_ = x_in;
+  P_ = P_in;
+  F_ = F_in;
+  Q_ = Q_in;
+
+}
+
 void KalmanFilter::Predict() {
 
   // state prediction
@@ -103,10 +114,11 @@ MatrixXd KalmanFilter::get_F(){
 MatrixXd KalmanFilter::get_Q(){
   return Q_;
 }
-
-VectorXd KalmanFilter::x_state(){
+VectorXd KalmanFilter::get_x(){
   return x_;
 }
-MatrixXd KalmanFilter::P_covariance(){
+MatrixXd KalmanFilter::get_P(){
   return P_;
 }
+
+

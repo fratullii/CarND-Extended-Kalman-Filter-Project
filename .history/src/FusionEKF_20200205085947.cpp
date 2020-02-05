@@ -150,10 +150,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   cout << "P_ = " << ekf_.P_covariance() << endl;
 }
 
-VectorXd FusionEKF::x_state(){
-  return ekf_.x_state();
-}
-
-MatrixXd FusionEKF::P_covariance(){
-  return ekf_.P_covariance();
+VectorXd FusionEKF::get_x(){
+  return x_;
 }

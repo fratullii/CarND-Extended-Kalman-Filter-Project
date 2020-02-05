@@ -62,9 +62,8 @@ class KalmanFilter {
   Eigen::MatrixXd get_H();
   Eigen::MatrixXd get_F();
   Eigen::MatrixXd get_Q();
-
-  Eigen::VectorXd x_state();
-  Eigen::MatrixXd P_covariance();
+  Eigen::VectorXd get_x();
+  Eigen::MatrixXd get_P();
 
   private:
 
