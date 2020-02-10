@@ -74,7 +74,11 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   // Update time-related variables
   time_step_ = (double) measurement_pack.timestamp_ - previous_timestamp_;
+  std::cout << "prev time " << previous_timestamp_ << endl;
+  std::cout << "timestamp " << measurement_pack.timestamp_ << endl;
+  std::cout << "time_step " << time_step_ << std::endl;
   time_step_ /= 1000000.0; // convert micros to s
+  std::cout << "time_step divid. " << time_step_ << std::endl;
   previous_timestamp_ = measurement_pack.timestamp_;
 
   /**
@@ -112,10 +116,13 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   cout << time_step_ << endl;
   ekf_.set_F(F_);
+  cout << "F UPDATED" << F_ << endl;
   ekf_.set_Q(Q_);
+  cout << "Q UPDATED" << Q_ << endl;
 
   ekf_.Predict();
 
+  cout << "Flag 1 " << endl;
 
   /**
    * UPDATE
@@ -123,23 +130,30 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
     // Radar update
 
+    cout << "RADAR" << endl;
     if (last_sensor_ != MeasurementPackage::RADAR){
       ekf_.set_R(R_radar_);
     }
     Hj_ = tools.CalculateJacobian(ekf_.x_state());
+    cout << "Flag 3 " << endl;
 
     ekf_.set_H(Hj_);
+    cout << "Flag 4 " << endl;
 
     ekf_.UpdateEKF(measurement_pack.raw_measurements_, tools.NonLinearH);
+    cout << "RADAR" << endl;
 
   } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER){
     // Laser update
+
     if(last_sensor_ != MeasurementPackage::LASER){
       ekf_.set_R(R_laser_);
       ekf_.set_H(H_laser_);
     }
+    cout << "Flag 5 " << endl;
 
     ekf_.Update(measurement_pack.raw_measurements_);
+    cout << "LASER" << endl;
 
   }
 
@@ -147,8 +161,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   last_sensor_ = measurement_pack.sensor_type_;
 
   // print the output
-  cout << "x_ = " << ekf_.x_state() << endl;
-  cout << "P_ = " << ekf_.P_covariance() << endl;
+  cout << "x_ = " << ekf_.x_state()(0) << ", " << ekf_.x_state()(1) << endl;
+  // cout << "P_ = " << ekf_.P_covariance() << endl;
 }
 
 VectorXd FusionEKF::x_state(){

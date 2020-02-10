@@ -46,7 +46,7 @@ class FusionEKF {
   long long previous_timestamp_;
 
   // Time step
-  double time_step_;
+  long long time_step_;
 
   // Last sensor used
   MeasurementPackage::SensorType last_sensor_;
@@ -63,8 +63,8 @@ class FusionEKF {
   Eigen::MatrixXd Q_;
 
   // Process noise variances
-  double noise_ax_;
-  double noise_ay_;
+  long long noise_ax_;
+  long long noise_ay_;
 
   // For initialization
   Eigen::VectorXd x_;

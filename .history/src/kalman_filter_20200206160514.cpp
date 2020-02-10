@@ -48,7 +48,7 @@ void KalmanFilter::Update(const VectorXd &z) {
   K_ = P_ * Ht_ * S_.inverse();
 
   // update state
-  x_ = x_ + (K_ * y_);
+  x_ = x_ + K_ * y_;
 
   // update covariance
   P_ = (MatrixXd::Identity(state_size_,state_size_) - K_ * H_) * P_;
@@ -63,7 +63,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z,
   y_ = z - nonlinH(x_);
 
   // Normalize angle
-  y_ = Tools::NormalizeAngle(y_);
+  tools.NormlizeAngle(y_)
 
   // compute residual covariance
   S_ = H_ * P_ * Ht_ + R_;
@@ -72,7 +72,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z,
   K_ = P_ * Ht_ * S_.inverse();
 
   // update state
-  x_ = x_ + (K_ * y_);
+  x_ = x_ + K_ * y_;
 
   // update covariance
   P_ = (MatrixXd::Identity(state_size_, state_size_) - K_ * H_) * P_;

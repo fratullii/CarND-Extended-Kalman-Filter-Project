@@ -45,20 +45,19 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
    return rmse;
 }
 
-MatrixXd Tools::CalculateProcNoiseCov(const double &dt,
-                           const double &sigma_ax, const double &sigma_ay){
+MatrixXd Tools::CalculateProcNoiseCov(const long long &dt,
+                           const long long &sigma_ax, const long long &sigma_ay){
 
-   MatrixXd Q;
-   Q = MatrixXd(4, 4);
-   Q << 2, 0, 0, 0,
-         0, 1, 0, 0,
-         0, 0, 7, 0,
-         0, 0, 0, 9;
+   MatrixXd Q = MatrixXd(4);
+   MatrixXd << 0, 0, 0, 0
+               0, 0, 0, 0
+               0, 0, 0, 0,
+               0, 0, 0, 0;
 
    // dt and sigma terms
-   double dt2 = dt * dt;
-   double dt3 = dt * dt2;
-   double dt4 = dt * dt3;
+   long long dt2 = dt * dt;
+   long long dt3 = dt * dt2;
+   long long dt4 = dt * dt3;
 
    // elements on the diagonal
    Q(0,0) = dt4 / 4 * sigma_ax;
@@ -71,16 +70,18 @@ MatrixXd Tools::CalculateProcNoiseCov(const double &dt,
    Q(1,3) = dt3 / 2 * sigma_ay;
    Q(2,0) = Q(0,2);
    Q(3,1) = Q(1,3);
+   std::cout << "QW  " << Q << std::endl;
 
    return Q;
 }
 
-MatrixXd Tools::CalculateStateTrans(const double &dt){
+MatrixXd Tools::CalculateStateTrans(const long long &dt){
 
    MatrixXd F = MatrixXd::Identity(4,4);
 
    F(0,2) = dt;
    F(1,3) = dt;
+   std::cout << "FW  " << F <<  std::endl;
 
    return F;
 }
@@ -98,18 +99,18 @@ VectorXd Tools::NonLinearH(const VectorXd &x_state){
 
  MatrixXd Tools::CalculateJacobian(const VectorXd &x_state) {
 
-  MatrixXd Hj = MatrixXd(3,4);
+  MatrixXd Hj;
 
   // recover state parameters
-  double px = x_state(0);
-  double py = x_state(1);
-  double vx = x_state(2);
-  double vy = x_state(3);
+  long long px = x_state(0);
+  long long py = x_state(1);
+  long long vx = x_state(2);
+  long long vy = x_state(3);
 
   // pre-compute a set of terms to avoid repeated calculation
-  double c1 = px*px + py*py;
-  double c2 = sqrt(c1);
-  double c3 = c1 * c2;
+  long long c1 = px*px + py*py;
+  long long c2 = sqrt(c1);
+  long long c3 = c1 * c2;
 
   // check division by zero
   if (fabs(c1) < 0.0001) {
@@ -141,9 +142,11 @@ VectorXd Tools::NormalizeAngle(const VectorXd &y){
    VectorXd ynorm = y;
 
    while (ynorm(1)>M_PI) {
+      std::cout << "norm +" << std::endl;
       ynorm(1) -= 2 * M_PI;
   }
   while (ynorm(1)<-M_PI) {
+      std::cout << "norm -" << std::endl;
       ynorm(1) += 2 * M_PI;
   }
 

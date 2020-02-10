@@ -17,7 +17,7 @@ FusionEKF::FusionEKF() {
 
   // Variable for initialization
   is_initialized_ = false;
-  previous_timestamp_ = 0.;
+  previous_timestamp_ = 0;
 
   /**
    * Initialize variables for FusionEKF
@@ -55,6 +55,7 @@ FusionEKF::FusionEKF() {
 
   // State vector x
   x_ = VectorXd(4);
+  x_ << 1,1,1,1;
 
   // State covariance matrix P
   P_ = MatrixXd(4,4);
@@ -73,7 +74,7 @@ FusionEKF::~FusionEKF() {}
 void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   // Update time-related variables
-  time_step_ = (double) measurement_pack.timestamp_ - previous_timestamp_;
+  time_step_ = measurement_pack.timestamp_ - previous_timestamp_;
   time_step_ /= 1000000.0; // convert micros to s
   previous_timestamp_ = measurement_pack.timestamp_;
 
@@ -87,7 +88,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR){
 
-      x_ = tools.FromPolar2Cartesian(measurement_pack.raw_measurements_);
+      tools.FromPolar2Cartesian(x_, measurement_pack.raw_measurements_);
 
     } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER){
 
@@ -107,15 +108,15 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   /**
    * PREDICTION
    */
-  F_ = tools.CalculateStateTrans(time_step_);
-  Q_ = tools.CalculateProcNoiseCov(time_step_, noise_ax_,  noise_ay_);
+  tools.CalculateStateTrans(F_, time_step_);
+  tools.CalculateProcNoiseCov(Q_, time_step_, noise_ax_,  noise_ay_);
 
-  cout << time_step_ << endl;
   ekf_.set_F(F_);
+  cout << "F UPDATED" << F_ << endl;
   ekf_.set_Q(Q_);
+  cout << "Q UPDATED" << Q_ << endl;
 
   ekf_.Predict();
-
 
   /**
    * UPDATE
@@ -126,20 +127,23 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     if (last_sensor_ != MeasurementPackage::RADAR){
       ekf_.set_R(R_radar_);
     }
-    Hj_ = tools.CalculateJacobian(ekf_.x_state());
+    tools.CalculateJacobian(Hj_, ekf_.x_state());
 
     ekf_.set_H(Hj_);
 
     ekf_.UpdateEKF(measurement_pack.raw_measurements_, tools.NonLinearH);
+    cout << "RADAR" << endl;
 
   } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER){
     // Laser update
+
     if(last_sensor_ != MeasurementPackage::LASER){
       ekf_.set_R(R_laser_);
       ekf_.set_H(H_laser_);
     }
 
     ekf_.Update(measurement_pack.raw_measurements_);
+    cout << "LASER" << endl;
 
   }
 
@@ -147,8 +151,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   last_sensor_ = measurement_pack.sensor_type_;
 
   // print the output
-  cout << "x_ = " << ekf_.x_state() << endl;
-  cout << "P_ = " << ekf_.P_covariance() << endl;
+  cout << "x_ = " << ekf_.x_state()(0) << ", " << ekf_.x_state()(1) << endl;
+  // cout << "P_ = " << ekf_.P_covariance() << endl;
 }
 
 VectorXd FusionEKF::x_state(){

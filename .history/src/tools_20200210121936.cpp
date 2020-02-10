@@ -49,6 +49,7 @@ MatrixXd Tools::CalculateProcNoiseCov(const double &dt,
                            const double &sigma_ax, const double &sigma_ay){
 
    MatrixXd Q;
+   std::cout << "timestep inside : " << dt << std::endl;
    Q = MatrixXd(4, 4);
    Q << 2, 0, 0, 0,
          0, 1, 0, 0,

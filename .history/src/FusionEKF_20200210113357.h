@@ -63,8 +63,8 @@ class FusionEKF {
   Eigen::MatrixXd Q_;
 
   // Process noise variances
-  double noise_ax_;
-  double noise_ay_;
+  long long noise_ax_;
+  long long noise_ay_;
 
   // For initialization
   Eigen::VectorXd x_;

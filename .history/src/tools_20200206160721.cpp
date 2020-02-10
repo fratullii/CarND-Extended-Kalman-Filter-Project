@@ -45,20 +45,13 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
    return rmse;
 }
 
-MatrixXd Tools::CalculateProcNoiseCov(const double &dt,
-                           const double &sigma_ax, const double &sigma_ay){
-
-   MatrixXd Q;
-   Q = MatrixXd(4, 4);
-   Q << 2, 0, 0, 0,
-         0, 1, 0, 0,
-         0, 0, 7, 0,
-         0, 0, 0, 9;
+void Tools::CalculateProcNoiseCov(MatrixXd &Q, const long long &dt,
+                           const long long &sigma_ax, const long long &sigma_ay){
 
    // dt and sigma terms
-   double dt2 = dt * dt;
-   double dt3 = dt * dt2;
-   double dt4 = dt * dt3;
+   long long dt2 = dt * dt;
+   long long dt3 = dt * dt2;
+   long long dt4 = dt * dt3;
 
    // elements on the diagonal
    Q(0,0) = dt4 / 4 * sigma_ax;
@@ -72,17 +65,15 @@ MatrixXd Tools::CalculateProcNoiseCov(const double &dt,
    Q(2,0) = Q(0,2);
    Q(3,1) = Q(1,3);
 
-   return Q;
+   return;
 }
 
-MatrixXd Tools::CalculateStateTrans(const double &dt){
-
-   MatrixXd F = MatrixXd::Identity(4,4);
+void Tools::CalculateStateTrans(MatrixXd &F, const long long &dt){
 
    F(0,2) = dt;
    F(1,3) = dt;
 
-   return F;
+   return;
 }
 
 VectorXd Tools::NonLinearH(const VectorXd &x_state){
@@ -90,31 +81,29 @@ VectorXd Tools::NonLinearH(const VectorXd &x_state){
    // initialize vector in measurement space
    VectorXd hx(3);
    hx(0) = sqrt(x_state(0)*x_state(0) + x_state(1)*x_state(1));
-   hx(1) = atan2(x_state(1), x_state(0));
+   hx(1) = atan2(x_state(1) , x_state(0));
    hx(2) = (x_state(0)*x_state(2) + x_state(1)*x_state(3)) / hx(0);
 
    return hx;
 }
 
- MatrixXd Tools::CalculateJacobian(const VectorXd &x_state) {
-
-  MatrixXd Hj = MatrixXd(3,4);
+ void Tools::CalculateJacobian(MatrixXd &Hj, const VectorXd &x_state) {
 
   // recover state parameters
-  double px = x_state(0);
-  double py = x_state(1);
-  double vx = x_state(2);
-  double vy = x_state(3);
+  long long px = x_state(0);
+  long long py = x_state(1);
+  long long vx = x_state(2);
+  long long vy = x_state(3);
 
   // pre-compute a set of terms to avoid repeated calculation
-  double c1 = px*px + py*py;
-  double c2 = sqrt(c1);
-  double c3 = c1 * c2;
+  long long c1 = px*px+py*py;
+  long long c2 = sqrt(c1);
+  long long c3 = (c1*c2);
 
   // check division by zero
   if (fabs(c1) < 0.0001) {
      std::cout << "CalculateJacobian () - Error - Division by Zero" << std::endl;
-    return Hj;
+    return;
   }
 
   // compute the Jacobian matrix
@@ -122,32 +111,26 @@ VectorXd Tools::NonLinearH(const VectorXd &x_state){
          -(py/c1), (px/c1), 0, 0,
          py*(vx*py - vy*px)/c3, px*(px*vy - py*vx)/c3, px/c2, py/c2;
 
-   return Hj;
+   return;
 }
 
-VectorXd Tools::FromPolar2Cartesian(const VectorXd &raw_meas){
+void Tools::FromPolar2Cartesian(VectorXd &x, const VectorXd &raw_meas){
 
-   VectorXd x = VectorXd(4);
    x << raw_meas[0] * cos(raw_meas[1]),
         raw_meas[0] * sin(raw_meas[1]),
-        raw_meas[2] * cos(raw_meas[1]),
-        raw_meas[2] * sin(raw_meas[1]);
+        0,
+        0;
 
-   return x;
+   return;
 }
 
 VectorXd Tools::NormalizeAngle(const VectorXd &y){
-
-   VectorXd ynorm = y;
-
-   while (ynorm(1)>M_PI) {
-      ynorm(1) -= 2 * M_PI;
+   while (y(1)>M_PI) {
+    y(1) -= 2 * M_PI;
   }
-  while (ynorm(1)<-M_PI) {
-      ynorm(1) += 2 * M_PI;
+  while (y(1)<-M_PI) {
+    y(1) += 2 * M_PI;
   }
-
-  return ynorm;
 }
 
 
